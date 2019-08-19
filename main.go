@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"reflect"
 	"strconv"
+	"strings"
 )
 
 type Location struct {
@@ -67,7 +68,7 @@ const (
 	TYPE     = "post"
 	DISTANCE = "200km"
 	// Needs to update this URL everytime you deploy it to cloud.
-	ES_URL = "http://35.184.111.59:9200/"
+	ES_URL = "http://34.68.109.5:9200/"
 )
 
 func handlerPost(w http.ResponseWriter, r *http.Request) {
@@ -160,9 +161,10 @@ func handlerSearch(w http.ResponseWriter, r *http.Request) {
 	for _, item := range searchResult.Each(reflect.TypeOf(typ)) { // instance of
 		p := item.(Post) // p = (Post) item
 		fmt.Printf("Post by %s: %s at lat %v and lon %v\n", p.User, p.Message, p.Location.Lat, p.Location.Lon)
-		// TODO(student homework): Perform filtering based on keywords such as web spam etc.
 
-		ps = append(ps, p)
+		if !containsFilteredWords(&p.Message) {
+			ps = append(ps, p)
+		}
 
 	}
 	js, err := json.Marshal(ps)
@@ -175,4 +177,18 @@ func handlerSearch(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Write(js)
 
+}
+
+// Perform filtering based on keywords such as web spam etc.
+func containsFilteredWords(s *string) bool {
+	filteredWords := []string{
+		"fuck",
+		"fuck you",
+	}
+	for _, word := range filteredWords {
+		if strings.Contains(*s, word) {
+			return true
+		}
+	}
+	return false
 }
