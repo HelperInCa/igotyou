@@ -67,7 +67,7 @@ const (
 	TYPE     = "post"
 	DISTANCE = "200km"
 	// Needs to update this URL everytime you deploy it to cloud.
-	ES_URL = "http://34.68.109.5:9200/"
+	ES_URL = "http://35.184.111.59:9200/"
 )
 
 func handlerPost(w http.ResponseWriter, r *http.Request) {
