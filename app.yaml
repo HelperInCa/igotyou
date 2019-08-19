@@ -1,3 +1,5 @@
+# Google App Engine
+# App Engine flexible environment automatically scales your app up and down while balancing the load
 runtime: go
 env: flex
 
