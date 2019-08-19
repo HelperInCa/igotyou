@@ -63,16 +63,11 @@ func main() {
 }
 
 const (
-	INDEX = "around" //for 'around' project
-	TYPE = "post"
+	INDEX    = "around" //for 'around' project
+	TYPE     = "post"
 	DISTANCE = "200km"
-	// Needs to update
-	//PROJECT_ID = "around-xxx"
-	//BT_INSTANCE = "around-post"
-	// Needs to update this URL if you deploy it to cloud.
-	ES_URL = "http://35.226.81.228:9200/"
-
-
+	// Needs to update this URL everytime you deploy it to cloud.
+	ES_URL = "http://34.68.109.5:9200/"
 )
 
 func handlerPost(w http.ResponseWriter, r *http.Request) {
@@ -117,7 +112,6 @@ func saveToES(p *Post, id string) {
 	fmt.Printf("Post is saved to Index: %s\n", p.Message)
 }
 
-
 func handlerSearch(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Received one request for search")
 	lat, _ := strconv.ParseFloat(r.URL.Query().Get("lat"), 64)
@@ -127,7 +121,7 @@ func handlerSearch(w http.ResponseWriter, r *http.Request) {
 	if val := r.URL.Query().Get("range"); val != "" {
 		ran = val + "km"
 	}
-	fmt.Printf( "Search received: %f %f %s\n", lat, lon, ran)
+	fmt.Printf("Search received: %f %f %s\n", lat, lon, ran)
 
 	// Create a client
 	client, err := elastic.NewClient(elastic.SetURL(ES_URL), elastic.SetSniff(false))
@@ -180,7 +174,5 @@ func handlerSearch(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Write(js)
-
-
 
 }
