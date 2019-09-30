@@ -37,11 +37,10 @@ const (
 	TYPE     = "post"
 	DISTANCE = "200km"
 	// Needs to update this URL everytime you deploy it to cloud.
-	ES_URL      = "http://104.155.177.41:9200/"
+	ES_URL      = "http://35.224.52.35:9200/"
 	BUCKET_NAME = "post-images-247913"
-	PROJECT_ID = "around-247913"
+	PROJECT_ID  = "around-247913"
 	BT_INSTANCE = "around-post"
-
 )
 
 var mySigningKey = []byte(uuid.New()) // <secret> in Token
@@ -154,7 +153,7 @@ func handlerPost(w http.ResponseWriter, r *http.Request) {
 	saveToES(p, id)
 
 	// Save to Big Table.
-	saveToBigTable(p, id)
+	//saveToBigTable(p, id)
 }
 
 //Save an image to GCS
@@ -226,8 +225,8 @@ func saveToBigTable(p *Post, id string) {
 	}
 
 	tbl := bt_client.Open("post")
-	mut := bigtable.NewMutation()  //mutation like one row
-	t := bigtable.Now() //timestamp
+	mut := bigtable.NewMutation() //mutation like one row
+	t := bigtable.Now()           //timestamp
 
 	mut.Set("post", "user", t, []byte(p.User))
 	mut.Set("post", "message", t, []byte(p.Message))
@@ -237,7 +236,8 @@ func saveToBigTable(p *Post, id string) {
 	err = tbl.Apply(ctx, id, mut)
 	if err != nil {
 		panic(err)
-		return }
+		return
+	}
 	fmt.Printf("Post is saved to BigTable: %s\n", p.Message)
 }
 
