@@ -15,5 +15,5 @@
 # vendor/
 
 # self
-.settings/*
-target/*
+.settings/
+target/
