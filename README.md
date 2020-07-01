@@ -2,7 +2,7 @@
 
 **a Geo-index based social network**
 
-![Demo](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200701155412.gif)
+[Demo](https://ipic-1300911741.oss-cn-shanghai.aliyuncs.com/uPic/20200701155412.gif)
 
 *Users can send, search posts based on location*
 
